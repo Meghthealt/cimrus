@@ -35,15 +35,18 @@ task:
     - ls -la
     - source build/envsetup.sh
     - apply-waydroid-patches
-    - lunch lineage_waydroid_arm64-userdebug 
-    - export TZ=Asia/Riyadh
-    - make systemimage -j$(nproc --all)
-    - make vendorimage -j$(nproc --all)
-    - ls -la $OUT
-    - ls -la
-    - echo $OUT
-  rclone_script:
-    - cd $OUT
     - mkdir -p ~/.config/rclone/
     - echo "$RCLONE" | base64 -d > ~/.config/rclone/rclone.conf
-    - rclone copy -v ./* drive:waydroid/18.1/"$(date +'%d-%m-%Y:%H:%M')"/
+    - rclone copy -v ./* drive:waydroidPATCH/18.1/"$(date +'%d-%m-%Y:%H:%M')"/
+    # - lunch lineage_waydroid_arm64-userdebug 
+    # - export TZ=Asia/Riyadh
+    # - make systemimage -j$(nproc --all)
+    # - make vendorimage -j$(nproc --all)
+    # - ls -la $OUT
+    # - ls -la
+    # - echo $OUT
+  # rclone_script:
+  #   - cd $OUT
+  #   - mkdir -p ~/.config/rclone/
+  #   - echo "$RCLONE" | base64 -d > ~/.config/rclone/rclone.conf
+  #   - rclone copy -v ./* drive:waydroid/18.1/"$(date +'%d-%m-%Y:%H:%M')"/
