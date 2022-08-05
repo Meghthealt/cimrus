@@ -13,7 +13,7 @@ task:
 
   install_script:
     - sudo apt-get update
-    - sudo apt-get install -yq neofetch
+    - sudo apt-get install -yq neofetch wget
     - neofetch
     - mkdir /home/cirrus/ccache
 
