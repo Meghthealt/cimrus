@@ -10,24 +10,21 @@ task:
     image: apon77/aosp:cirrus
     cpu: 8
     memory: 32G
-  volumes:
-    - /home/cirrus/roms:/home/cirrus/roms
-    - /home/cirrus/ccache:/home/cirrus/ccache
-    - /home/cirrus/.config:/home/cirrus/.config
 
   install_script:
     - sudo apt-get update
     - sudo apt-get install -yq neofetch
     - neofetch
+    - mkdir /home/cirrus/ccache
+
   build_script:
-    - cd ~/roms
     - export CCACHE_DIR=~/ccache/
     - export CCACHE_EXEC=$(which ccache)
     - export USE_CCACHE=1
     - ccache -M 8G
     - ccache -z
-    - mkdir lineage
-    - cd lineage
+    - mkdir ~/lineage
+    - cd ~/lineage
     - git config --global user.email "xdjust18@gmail.com"
     - git config --global user.name "justxd22"
     - git config --global color.ui true
