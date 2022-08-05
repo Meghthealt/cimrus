@@ -1,0 +1,52 @@
+env:
+    CIRRUS_CLONE_DEPTH: 1
+    BUILD_HOSTNAME: "CirrusCI"
+    CIRRUS_WORKING_DIR: "/tmp/ci"
+    RCLONE: "ENCRYPTED[!d8a3784b8ba0931b52ea6b0ded6c64ec021125f37a44f056fe63c17c47e625b4b45e3b7a66e4ad0336bc6898fd8b848b!]"
+
+task:
+  name: Waydroid a11 build
+  container:
+    image: apon77/aosp:cirrus
+    cpu: 24
+    memory: 120G
+  volumes:
+    - /home/cirrus/roms:/home/cirrus/roms
+    - /home/cirrus/ccache:/home/cirrus/ccache
+    - /home/cirrus/.config:/home/cirrus/.config
+
+  install_script:
+    - apt-get update
+    - apt-get install -yq neofetch
+    - neofetch
+  build_script:
+    - cd ~/roms
+    - export CCACHE_DIR=~/ccache/
+    - export CCACHE_EXEC=$(which ccache)
+    - export USE_CCACHE=1
+    - ccache -M 8G
+    - ccache -z
+    - mkdir lineage
+    - cd lineage
+    - git config --global user.email "xdjust18@gmail.com"
+    - git config --global user.name "justxd22"
+    - git config --global color.ui true
+    - repo init --depth=1 --no-repo-verify -u git://github.com/LineageOS/android.git -b lineage-18.1 -g default,-mips,-darwin,-notdefault
+    - wget -O - https://raw.githubusercontent.com/waydroid/android_vendor_waydroid/lineage-18.1/manifest_scripts/generate-manifest.sh | bash
+    - echo '<?xml version="1.0" encoding="UTF-8"?><manifest><!-- Remove replaced Projects --><remove-project name="platform/external/libdrm" /><remove-project name="platform/external/mesa3d" /><!--  <remove-project name="platform/hardware/intel/common/libva" />--><remove-project name="LineageOS/android_packages_apps_SetupWizard" /><remove-project name="LineageOS/android_external_chromium-webview_patches" /><remove-project name="LineageOS/android_external_chromium-webview_prebuilt_arm"/><remove-project name="LineageOS/android_external_chromium-webview_prebuilt_arm64"/><remove-project name="LineageOS/android_external_chromium-webview_prebuilt_x86"/></manifest>' > .repo/local_manifests/01-removes.xml
+    - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
+    - ls -la
+    - source build/envsetup.sh
+    - apply-waydroid-patches
+    - lunch lineage_waydroid_arm64-userdebug 
+    - export TZ=Asia/Riyadh
+    - make systemimage -j$(nproc --all)
+    - make vendorimage -j$(nproc --all)
+    - ls -la $OUT
+    - ls -la
+    - echo $OUT
+  rclone_script:
+    - cd $OUT
+    - mkdir -p ~/.config/rclone/
+    - echo "$RCLONE" | base64 -d > ~/.config/rclone/rclone.conf
+    - rclone copy -v ./* drive:waydroid/18.1/"$(date +'%d-%m-%Y:%H:%M')"/
