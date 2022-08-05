@@ -8,8 +8,8 @@ task:
   name: Waydroid a11 build
   container:
     image: apon77/aosp:cirrus
-    cpu: 24
-    memory: 120G
+    cpu: 8
+    memory: 32G
   volumes:
     - /home/cirrus/roms:/home/cirrus/roms
     - /home/cirrus/ccache:/home/cirrus/ccache
