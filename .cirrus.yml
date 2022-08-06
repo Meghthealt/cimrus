@@ -29,24 +29,21 @@ task:
     - git config --global user.name "justxd22"
     - git config --global color.ui true
     - repo init --depth=1 --no-repo-verify -u https://github.com/LineageOS/android.git -b lineage-18.1 -g default,-mips,-darwin,-notdefault
-    - wget -O - https://raw.githubusercontent.com/waydroid/android_vendor_waydroid/lineage-18.1/manifest_scripts/generate-manifest.sh | bash
-    - echo '<?xml version="1.0" encoding="UTF-8"?><manifest><!-- Remove replaced Projects --><remove-project name="platform/external/libdrm" /><remove-project name="platform/external/mesa3d" /><!--  <remove-project name="platform/hardware/intel/common/libva" />--><remove-project name="LineageOS/android_packages_apps_SetupWizard" /><remove-project name="LineageOS/android_external_chromium-webview_patches" /><remove-project name="LineageOS/android_external_chromium-webview_prebuilt_arm"/><remove-project name="LineageOS/android_external_chromium-webview_prebuilt_arm64"/><remove-project name="LineageOS/android_external_chromium-webview_prebuilt_x86"/></manifest>' > .repo/local_manifests/01-removes.xml
+    - wget -O - https://raw.githubusercontent.com/Justxd22/waydroid_a11_lineageos/main/manifest.sh | bash
+    # - echo '<?xml version="1.0" encoding="UTF-8"?><manifest><!-- Remove replaced Projects --><remove-project name="platform/external/libdrm" /><remove-project name="platform/external/mesa3d" /><!--  <remove-project name="platform/hardware/intel/common/libva" />--><remove-project name="LineageOS/android_packages_apps_SetupWizard" /><remove-project name="LineageOS/android_external_chromium-webview_patches" /><remove-project name="LineageOS/android_external_chromium-webview_prebuilt_arm"/><remove-project name="LineageOS/android_external_chromium-webview_prebuilt_arm64"/><remove-project name="LineageOS/android_external_chromium-webview_prebuilt_x86"/></manifest>' > .repo/local_manifests/01-removes.xml
     - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
     - ls -la
     - source build/envsetup.sh
     - apply-waydroid-patches
+    - lunch lineage_waydroid_arm64-userdebug
+    - export TZ=Asia/Riyadh
+    - make systemimage -j$(nproc --all)
+    - make vendorimage -j$(nproc --all)
+    - ls -la $OUT
+    - ls -la
+    - echo $OUT
+  rclone_script:
+    - cd $OUT
     - mkdir -p ~/.config/rclone/
     - echo "$RCLONE" | base64 -d > ~/.config/rclone/rclone.conf
-    - rclone copy -v ./* drive:waydroidPATCH/18.1/"$(date +'%d-%m-%Y:%H:%M')"/
-    # - lunch lineage_waydroid_arm64-userdebug 
-    # - export TZ=Asia/Riyadh
-    # - make systemimage -j$(nproc --all)
-    # - make vendorimage -j$(nproc --all)
-    # - ls -la $OUT
-    # - ls -la
-    # - echo $OUT
-  # rclone_script:
-  #   - cd $OUT
-  #   - mkdir -p ~/.config/rclone/
-  #   - echo "$RCLONE" | base64 -d > ~/.config/rclone/rclone.conf
-  #   - rclone copy -v ./* drive:waydroid/18.1/"$(date +'%d-%m-%Y:%H:%M')"/
+    - rclone copy -v $(pwd) drive:waydroid/18.1/"$(date +'%d-%m-%Y:%H:%M')"/
