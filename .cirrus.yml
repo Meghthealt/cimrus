@@ -11,10 +11,10 @@ task:
     image: apon77/aosp:cirrus
     cpu: 8
     memory: 32G
-  cache_repo:
+  repo_cache:
     folder: "/home/cirrus/roms"
     reupload_on_changes: false
-    
+
   install_script:
     - sudo apt-get update
     - sudo apt-get install -yq neofetch wget
