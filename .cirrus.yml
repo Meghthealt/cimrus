@@ -38,7 +38,7 @@ task:
     - ls -la
   
   cache_script:
-    folder: /home/cirrus/roms
+    folder: "/home/cirrus/roms"
     reupload_on_changes: false
     
   build_script:
@@ -50,7 +50,7 @@ task:
     - make vendorimage -j$(nproc --all)
     - ls -la $OUT_DIR
     - ls -la
-    - echo $OUT
+    - echo $OUT_DIR
   rclone_script:
     - cd out
     - mkdir -p ~/.config/rclone/
