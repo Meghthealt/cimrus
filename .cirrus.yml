@@ -28,8 +28,8 @@ task:
     - cd /home/cirrus/roms
     - mkdir lineage
     - cd lineage
-    - git config --global user.email "meghrana2007@gmail.com"
-    - git config --global user.name "MeghRana"
+    - git config --global user.email "meghthealt1@gmail.com"
+    - git config --global user.name "Meghthealt"
     - git config --global color.ui true
     - repo init --depth=1 --no-repo-verify -u https://github.com/crdroidandroid/android.git -b 11.0 -g default,-mips,-darwin,-notdefault
 
