@@ -17,6 +17,7 @@ task:
     - sudo apt-get install -yq neofetch wget
     - neofetch
     - mkdir /home/cirrus/ccache
+    - mkdir /home/cirrus/roms
 
   sync_script:
     - export CCACHE_DIR=~/ccache/
@@ -24,8 +25,9 @@ task:
     - export USE_CCACHE=1
     - ccache -M 8G
     - ccache -z
-    - mkdir ~/lineage
-    - cd ~/lineage
+    - cd roms
+    - mkdir lineage
+    - cd lineage
     - git config --global user.email "xdjust18@gmail.com"
     - git config --global user.name "justxd22"
     - git config --global color.ui true
@@ -36,7 +38,7 @@ task:
     - ls -la
   
   cache_script:
-    folder: ~/lineage
+    folder: /home/cirrus/roms
     reupload_on_changes: false
     
   build_script:
