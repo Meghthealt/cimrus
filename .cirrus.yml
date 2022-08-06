@@ -6,14 +6,11 @@ env:
 
 task:
   name: Waydroid a11 build
-  timeout_in: 120m
+  timeout_in: 260m
   container:
     image: apon77/aosp:cirrus
     cpu: 8
     memory: 32G
-  repo_cache:
-    folder: "/home/cirrus/roms"
-    reupload_on_changes: false
 
   install_script:
     - sudo apt-get update
@@ -40,9 +37,6 @@ task:
     - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
     - ls -la
 
-  upload_caches:
-    - "/home/cirrus/roms"
-    
   build_script:
     - source build/envsetup.sh
     - apply-waydroid-patches
@@ -53,6 +47,7 @@ task:
     - ls -la $OUT_DIR
     - ls -la
     - echo $OUT_DIR
+    
   rclone_script:
     - cd out
     - mkdir -p ~/.config/rclone/
