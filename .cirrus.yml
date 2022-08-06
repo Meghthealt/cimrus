@@ -37,7 +37,7 @@ task:
     - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
     - ls -la
   
-  cache_script:
+  cache_repo:
     folder: "/home/cirrus/roms"
     reupload_on_changes: false
     
