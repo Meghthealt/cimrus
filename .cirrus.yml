@@ -25,7 +25,7 @@ task:
     - export USE_CCACHE=1
     - ccache -M 8G
     - ccache -z
-    - cd roms
+    - cd /home/cirrus/roms
     - mkdir lineage
     - cd lineage
     - git config --global user.email "xdjust18@gmail.com"
@@ -40,6 +40,9 @@ task:
   cache_repo:
     folder: "/home/cirrus/roms"
     reupload_on_changes: false
+
+  upload_caches:
+    - "/home/cirrus/roms"
     
   build_script:
     - source build/envsetup.sh
