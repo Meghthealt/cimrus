@@ -5,7 +5,7 @@ env:
     RCLONE: "ENCRYPTED[!d8a3784b8ba0931b52ea6b0ded6c64ec021125f37a44f056fe63c17c47e625b4b45e3b7a66e4ad0336bc6898fd8b848b!]"
 
 task:
-  name: Waydroid a11 build
+  name: Crdroid a11 build
   timeout_in: 260m
   container:
     image: apon77/aosp:cirrus
@@ -32,31 +32,19 @@ task:
     - git config --global user.name "Meghthealt"
     - git config --global color.ui true
     - repo init --depth=1 --no-repo-verify -u https://github.com/crdroidandroid/android.git -b 11.0 -g default,-mips,-darwin,-notdefault
-
- - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
+    - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
     - git clone https://gitlab.com/TipzTeam/android-trees/android_device_cyanogen_msm8916-common-oppo -b lineage-18.1 device/cyanogen/msm8916-common
-
-- git clone https://gitlab.com/TipzTeam/android-trees/android_device_oppo_A37 -b lineage-18.1 device/oppo/A37
-
-- git clone https://gitlab.com/TipzTeam/android-trees/android_kernel_oppo_msm8916 -b deepak-test-branch/lineage-18.1 kernel/oppo/msm8937
-
-- git clone https://github.com/LineageOS/android_external_bson external/bson -b lineage-18.1 
-
-- git clone https://github.com/Meghthedev/vendor_oppo_A37 -b main vendor/oppo/A37
-
-- git clone https://github.com/LineageOS/android_system_qcom system_qcom -b lineage-18.1 
- 
-- git clone https://github.com/LineageOS/android_external_connectivity external/connectivity -b lineage-18.1 
-
-- git clone https://github.com/LineageOS/android_hardware_qcom_audio hardware/qcom-caf/msm8916/audio -b lineage-18.1-caf-msm8916
-
-- git clone https://github.com/LineageOS/android_hardware_qcom_display hardware/qcom-caf/msm8916/display -b lineage-18.1-caf-msm8916
-
-- git clone https://github.com/LineageOS/android_hardware_qcom_media hardware/qcom-caf/msm8916/media -b lineage-18.1-caf-msm8916
-
-- git clone https://github.com/LineageOS/android_vendor_qcom_opensource_libfmjni vendor/qcom/opensource/libfmjni -b lineage-18.1
-
-- git clone https://github.com/LineageOS/android_packages_apps_FMRadio packages/apps/FMRadio-b lineage-18.1
+    - git clone https://gitlab.com/TipzTeam/android-trees/android_device_oppo_A37 -b lineage-18.1 device/oppo/A37
+    - git clone https://gitlab.com/TipzTeam/android-trees/android_kernel_oppo_msm8916 -b deepak-test-branch/lineage-18.1 kernel/oppo/msm8937
+    - git clone https://github.com/LineageOS/android_external_bson external/bson -b lineage-18.1 
+    - git clone https://github.com/Meghthedev/vendor_oppo_A37 -b main vendor/oppo/A37
+    - git clone https://github.com/LineageOS/android_system_qcom system_qcom -b lineage-18.1 
+    - git clone https://github.com/LineageOS/android_external_connectivity external/connectivity -b lineage-18.1 
+    - git clone https://github.com/LineageOS/android_hardware_qcom_audio hardware/qcom-caf/msm8916/audio -b lineage-18.1-caf-msm8916
+    - git clone https://github.com/LineageOS/android_hardware_qcom_display hardware/qcom-caf/msm8916/display -b lineage-18.1-caf-msm8916
+    - git clone https://github.com/LineageOS/android_hardware_qcom_media hardware/qcom-caf/msm8916/media -b lineage-18.1-caf-msm8916
+    - git clone https://github.com/LineageOS/android_vendor_qcom_opensource_libfmjni vendor/qcom/opensource/libfmjni -b lineage-18.1
+    - git clone https://github.com/LineageOS/android_packages_apps_FMRadio packages/apps/FMRadio-b lineage-18.1
 
   build_script:
     - cd /home/cirrus/roms/lineage
