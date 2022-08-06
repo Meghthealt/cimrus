@@ -6,6 +6,7 @@ env:
 
 task:
   name: Waydroid a11 build
+  timeout_in: 90m
   container:
     image: apon77/aosp:cirrus
     cpu: 8
@@ -39,11 +40,12 @@ task:
     - export TZ=Asia/Riyadh
     - make systemimage -j$(nproc --all)
     - make vendorimage -j$(nproc --all)
-    - ls -la $OUT
+    - ls -la $OUT_DIR
     - ls -la
     - echo $OUT
   rclone_script:
-    - cd $OUT
+    - cd out
     - mkdir -p ~/.config/rclone/
     - echo "$RCLONE" | base64 -d > ~/.config/rclone/rclone.conf
-    - rclone copy -v $(pwd) drive:waydroid/18.1/"$(date +'%d-%m-%Y:%H:%M')"/
+    - rclone copy -v out/system.img drive:waydroid/18.1/"$(date +'%d-%m-%Y:%H:%M')"/
+    - rclone copy -v out/vendor.img drive:waydroid/18.1/"$(date +'%d-%m-%Y:%H:%M')"/
